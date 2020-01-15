@@ -55,7 +55,7 @@ namespace MemoryDiff
         public async Task Watch<T>(IList<IntPtr> addresses, int intervalInMillis, CancellationToken token,
             Action<ulong, T> handler = null, Action<IDictionary<ulong, T>> allHandler = null, T t = default(T))
         {
-            Console.WriteLine("Watcher Started");
+            await Log.WriteLineAsync("Watcher Started");
             var values = new Dictionary<ulong, T>();
             var baseAddr = (ulong)Target.MainModule.BaseAddress.ToInt64();
             while (!token.IsCancellationRequested)
@@ -106,7 +106,7 @@ namespace MemoryDiff
 
         public async Task<List<IntPtr>> FindMatches<T>(T value, ISet<IntPtr> exclusions = null, Action<ulong, T> handler = null)
         {
-            await Console.Out.WriteLineAsync("Scanning Addresses...");
+            await Log.WriteLineAsync("Scanning Addresses...");
             var matches = new List<IntPtr>();
 
             // var start = (ulong)Target.MainModule.BaseAddress;
@@ -115,9 +115,9 @@ namespace MemoryDiff
             var start = 0UL;
             var end = 0x7FFFFFFEFFFFUL;
 
-            await Console.Out.WriteLineAsync($"Address Range: 0x{start:X08} to 0x{end:X08}");
+            await Log.WriteLineAsync($"Address Range: 0x{start:X08} to 0x{end:X08}");
 
-            Console.WriteLine(BitConverter.IsLittleEndian);
+            await Log.WriteLineAsync("Is Little Endian: " + BitConverter.IsLittleEndian);
             return await Task.Run(async () =>
             {
                 var current = start;
@@ -130,7 +130,7 @@ namespace MemoryDiff
                        (uint)Marshal.SizeOf(typeof(Windows.MEMORY_BASIC_INFORMATION64)));
                     if (structByteCount == 0)
                     {
-                        await Console.Out.WriteLineAsync("Page query returned 0 bytes");
+                        await Log.WriteLineAsync("Page query returned 0 bytes");
                         break;
                     }
 
@@ -160,10 +160,10 @@ namespace MemoryDiff
                             T found = Convert<T>(data, offset, value);
                             if (Equals(found, value))
                             {
-                                await Console.Out.WriteLineAsync($"0x{regionStart + (ulong)offset:X8}: {found}");
-                                await Console.Out.WriteLineAsync("Match Address (Absolute): " + (regionStart + (ulong)offset));
-                                await Console.Out.WriteLineAsync("Match Address Index: " + offset);
-                                await Console.Out.WriteLineAsync("Match Address Base: " + regionStart);
+                                await Log.WriteLineAsync($"0x{regionStart + (ulong)offset:X8}: {found}");
+                                await Log.WriteLineAsync("Match Address (Absolute): " + (regionStart + (ulong)offset));
+                                await Log.WriteLineAsync("Match Address Index: " + offset);
+                                await Log.WriteLineAsync("Match Address Base: " + regionStart);
                                 var address = (IntPtr)(regionStart + (ulong)offset);
                                 if (!exclusions.Contains(address))
                                 {

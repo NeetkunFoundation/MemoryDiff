@@ -47,6 +47,18 @@ namespace MemoryDiff
         private void MainForm_Load(object sender, EventArgs e)
         {
             Title = Text;
+            Log.OnNext += line =>
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    logTextBox.Text += line + "\r\n";
+                    if (logTextBox.Text.Length > 10000)
+                    {
+                        logTextBox.Text = logTextBox.Text.Substring(logTextBox.Text.IndexOf("\r\n"));
+                    }
+                }));
+            };
+
             GameProcess = Process.GetProcessesByName("MonsterHunterWorld").FirstOrDefault();
             if (GameProcess == default(Process))
             {
@@ -186,10 +198,10 @@ namespace MemoryDiff
 
             await Task.Run(async () =>
             {
-                await Console.Out.WriteLineAsync($"Matches ({Watches.Count}):");
+                await Log.WriteLineAsync($"Matches ({Watches.Count}):");
                 foreach (var address in Watches)
                 {
-                    await Console.Out.WriteLineAsync("0x" + address.ToString("X8"));
+                    await Log.WriteLineAsync("0x" + address.ToString("X8"));
                 }
             });
 
