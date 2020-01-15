@@ -24,6 +24,8 @@ namespace MemoryDiff
         ISet<IntPtr> Exclusions { get; } = new HashSet<IntPtr>();
         IDictionary<RadioButton, Type> Radios { get; } = new Dictionary<RadioButton, Type>();
 
+        int LastFoundPosition { get; set; } = 0;
+
         public MainForm()
         {
             InitializeComponent();
@@ -101,8 +103,54 @@ namespace MemoryDiff
             Cancellation?.Cancel();
         }
 
+        private void findFromListButton_Click(object sender, EventArgs e)
+        {
+            FindNext();
+        }
+
+        void FindNext()
+        {
+            var query = queryTextBox.Text;
+            var items = addressListView.Items;
+            ListViewItem found = null;
+
+        find:
+            for (var i = LastFoundPosition; i < items.Count; ++i)
+            {
+                var item = items[i];
+                if (found.SubItems[1].Text == queryTextBox.Text)
+                {
+                    if (found == null || i > LastFoundPosition)
+                    {
+                        found = item;
+                        LastFoundPosition = i;
+                        break;
+                    }
+                }
+            }
+
+            if (found == null && LastFoundPosition != 0)
+            {
+                LastFoundPosition = 0;
+                goto find;
+            }
+
+            if (found != null)
+            {
+                if (found.SubItems[1].Text == query)
+                {
+                    found.Focused = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show($"条件 {query} に合う項目は見つかりませんでした", "検索", MessageBoxButtons.OK);
+            }
+        }
+
         async Task Scan()
         {
+            addressListView.Items.Clear();
             var count = 0;
 
             Invoke((MethodInvoker)(() =>
@@ -113,26 +161,20 @@ namespace MemoryDiff
 
             var items = new Dictionary<ulong, ListViewItem>();
 
-            object query = null;
+            var query = GetQuery();
 
-            foreach (var radio in Radios)
+            Watches = await MemoryScanner.FindMatches(query, exclusions: Exclusions, handler: (address, found) =>
             {
-                if (!radio.Key.Checked) continue;
-                query = Parse(radio.Value, queryTextBox.Text);
-                Watches = await MemoryScanner.FindMatches(query, exclusions: Exclusions, handler: (address, found) =>
+                BeginInvoke((MethodInvoker)(() =>
                 {
-                    BeginInvoke((MethodInvoker)(() =>
-                    {
-                        var c = Interlocked.Increment(ref count);
-                        Text = $"{Title} (検索中: {c})";
-                        readyToolStripStatusLabel.Text = ScanState.Scanning.ToString(c);
-                        items[address] = addressListView.Items.Add(new ListViewItem(new[] {
+                    var c = Interlocked.Increment(ref count);
+                    Text = $"{Title} (検索中: {c})";
+                    readyToolStripStatusLabel.Text = ScanState.Scanning.ToString(c);
+                    items[address] = addressListView.Items.Add(new ListViewItem(new[] {
                         address.ToString("X8"), "", found.ToString()
                     }));
-                    }));
-                });
-                break;
-            }
+                }));
+            });
 
             await Task.Run(async () =>
             {
@@ -170,6 +212,18 @@ namespace MemoryDiff
                    }));
                }
            });
+        }
+
+        object GetQuery()
+        {
+            object query = null;
+            foreach (var radio in Radios)
+            {
+                if (!radio.Key.Checked) continue;
+                query = Parse(radio.Value, queryTextBox.Text);
+                break;
+            }
+            return query;
         }
 
         object Parse(Type type, string text)

@@ -33,9 +33,6 @@
             this.columnAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnCurrent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnPrevious = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.excludeAllButton = new System.Windows.Forms.Button();
-            this.refreshButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,8 +57,11 @@
             this.qwordRadioButton = new System.Windows.Forms.RadioButton();
             this.floatRadioButton = new System.Windows.Forms.RadioButton();
             this.doubleRadioButton = new System.Windows.Forms.RadioButton();
-            this.findFromListButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pauseButton = new System.Windows.Forms.Button();
+            this.findFromListButton = new System.Windows.Forms.Button();
+            this.excludeAllButton = new System.Windows.Forms.Button();
+            this.refreshButton = new System.Windows.Forms.Button();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.readyToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.springToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -70,13 +70,13 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,40 +128,6 @@
             // 
             this.columnPrevious.Text = "最初の値";
             this.columnPrevious.Width = 91;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.pauseButton);
-            this.panel1.Controls.Add(this.findFromListButton);
-            this.panel1.Controls.Add(this.excludeAllButton);
-            this.panel1.Controls.Add(this.refreshButton);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 263);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(900, 30);
-            this.panel1.TabIndex = 5;
-            // 
-            // excludeAllButton
-            // 
-            this.excludeAllButton.Dock = System.Windows.Forms.DockStyle.Left;
-            this.excludeAllButton.Location = new System.Drawing.Point(0, 0);
-            this.excludeAllButton.Name = "excludeAllButton";
-            this.excludeAllButton.Size = new System.Drawing.Size(150, 30);
-            this.excludeAllButton.TabIndex = 1;
-            this.excludeAllButton.Text = "現在の結果をすべて除外";
-            this.excludeAllButton.UseVisualStyleBackColor = true;
-            this.excludeAllButton.Click += new System.EventHandler(this.excludeAllButton_Click);
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.refreshButton.Location = new System.Drawing.Point(825, 0);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(75, 30);
-            this.refreshButton.TabIndex = 0;
-            this.refreshButton.Text = "再検索";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // groupBox1
             // 
@@ -435,15 +401,17 @@
             this.doubleRadioButton.Text = "double";
             this.doubleRadioButton.UseVisualStyleBackColor = true;
             // 
-            // findFromListButton
+            // panel1
             // 
-            this.findFromListButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.findFromListButton.Location = new System.Drawing.Point(729, 0);
-            this.findFromListButton.Name = "findFromListButton";
-            this.findFromListButton.Size = new System.Drawing.Size(96, 30);
-            this.findFromListButton.TabIndex = 2;
-            this.findFromListButton.Text = "リストから検索";
-            this.findFromListButton.UseVisualStyleBackColor = true;
+            this.panel1.Controls.Add(this.pauseButton);
+            this.panel1.Controls.Add(this.findFromListButton);
+            this.panel1.Controls.Add(this.excludeAllButton);
+            this.panel1.Controls.Add(this.refreshButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 263);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(900, 30);
+            this.panel1.TabIndex = 5;
             // 
             // pauseButton
             // 
@@ -454,6 +422,39 @@
             this.pauseButton.TabIndex = 3;
             this.pauseButton.Text = "一時停止";
             this.pauseButton.UseVisualStyleBackColor = true;
+            // 
+            // findFromListButton
+            // 
+            this.findFromListButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.findFromListButton.Location = new System.Drawing.Point(729, 0);
+            this.findFromListButton.Name = "findFromListButton";
+            this.findFromListButton.Size = new System.Drawing.Size(96, 30);
+            this.findFromListButton.TabIndex = 2;
+            this.findFromListButton.Text = "リストから検索";
+            this.findFromListButton.UseVisualStyleBackColor = true;
+            this.findFromListButton.Click += new System.EventHandler(this.findFromListButton_Click);
+            // 
+            // excludeAllButton
+            // 
+            this.excludeAllButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.excludeAllButton.Location = new System.Drawing.Point(0, 0);
+            this.excludeAllButton.Name = "excludeAllButton";
+            this.excludeAllButton.Size = new System.Drawing.Size(150, 30);
+            this.excludeAllButton.TabIndex = 1;
+            this.excludeAllButton.Text = "現在の結果をすべて除外";
+            this.excludeAllButton.UseVisualStyleBackColor = true;
+            this.excludeAllButton.Click += new System.EventHandler(this.excludeAllButton_Click);
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.refreshButton.Location = new System.Drawing.Point(825, 0);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(75, 30);
+            this.refreshButton.TabIndex = 0;
+            this.refreshButton.Text = "再検索";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // mainStatusStrip
             // 
@@ -476,7 +477,7 @@
             // springToolStripStatusLabel1
             // 
             this.springToolStripStatusLabel1.Name = "springToolStripStatusLabel1";
-            this.springToolStripStatusLabel1.Size = new System.Drawing.Size(799, 17);
+            this.springToolStripStatusLabel1.Size = new System.Drawing.Size(830, 17);
             this.springToolStripStatusLabel1.Spring = true;
             // 
             // targetTitleToolStripStatusLabel
@@ -502,7 +503,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -513,6 +513,7 @@
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.mainStatusStrip.ResumeLayout(false);
             this.mainStatusStrip.PerformLayout();
             this.ResumeLayout(false);
