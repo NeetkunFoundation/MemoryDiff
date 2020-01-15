@@ -41,8 +41,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.queryTextBox = new System.Windows.Forms.TextBox();
+            this.logTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.byteArrayRadioButton = new System.Windows.Forms.RadioButton();
@@ -60,9 +60,9 @@
             this.qwordRadioButton = new System.Windows.Forms.RadioButton();
             this.floatRadioButton = new System.Windows.Forms.RadioButton();
             this.doubleRadioButton = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.findFromListButton = new System.Windows.Forms.Button();
+            this.pauseButton = new System.Windows.Forms.Button();
+            this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.readyToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.springToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.targetTitleToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -77,7 +77,7 @@
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.mainStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -131,8 +131,8 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.pauseButton);
+            this.panel1.Controls.Add(this.findFromListButton);
             this.panel1.Controls.Add(this.excludeAllButton);
             this.panel1.Controls.Add(this.refreshButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -180,8 +180,8 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.queryTextBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.logTextBox, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 19);
@@ -227,24 +227,24 @@
             this.label1.Text = "検索内容";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // queryTextBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(64, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(833, 23);
-            this.textBox1.TabIndex = 9;
+            this.queryTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queryTextBox.Location = new System.Drawing.Point(64, 3);
+            this.queryTextBox.Name = "queryTextBox";
+            this.queryTextBox.Size = new System.Drawing.Size(833, 23);
+            this.queryTextBox.TabIndex = 9;
             // 
-            // textBox2
+            // logTextBox
             // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Font = new System.Drawing.Font("Consolas", 9F);
-            this.textBox2.Location = new System.Drawing.Point(64, 138);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(833, 100);
-            this.textBox2.TabIndex = 13;
+            this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logTextBox.Font = new System.Drawing.Font("Consolas", 9F);
+            this.logTextBox.Location = new System.Drawing.Point(64, 138);
+            this.logTextBox.Multiline = true;
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
+            this.logTextBox.Size = new System.Drawing.Size(833, 100);
+            this.logTextBox.TabIndex = 13;
             // 
             // tableLayoutPanel2
             // 
@@ -430,37 +430,37 @@
             this.doubleRadioButton.Text = "double";
             this.doubleRadioButton.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // findFromListButton
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(729, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 30);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "リストから検索";
-            this.button1.UseVisualStyleBackColor = true;
+            this.findFromListButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.findFromListButton.Location = new System.Drawing.Point(729, 0);
+            this.findFromListButton.Name = "findFromListButton";
+            this.findFromListButton.Size = new System.Drawing.Size(96, 30);
+            this.findFromListButton.TabIndex = 2;
+            this.findFromListButton.Text = "リストから検索";
+            this.findFromListButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // pauseButton
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button2.Location = new System.Drawing.Point(633, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 30);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "一時停止";
-            this.button2.UseVisualStyleBackColor = true;
+            this.pauseButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pauseButton.Location = new System.Drawing.Point(633, 0);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(96, 30);
+            this.pauseButton.TabIndex = 3;
+            this.pauseButton.Text = "一時停止";
+            this.pauseButton.UseVisualStyleBackColor = true;
             // 
-            // statusStrip1
+            // mainStatusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.readyToolStripStatusLabel,
             this.springToolStripStatusLabel1,
             this.targetTitleToolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(4, 592);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(900, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
+            this.mainStatusStrip.Location = new System.Drawing.Point(4, 592);
+            this.mainStatusStrip.Name = "mainStatusStrip";
+            this.mainStatusStrip.Size = new System.Drawing.Size(900, 22);
+            this.mainStatusStrip.TabIndex = 6;
+            this.mainStatusStrip.Text = "statusStrip1";
             // 
             // readyToolStripStatusLabel
             // 
@@ -485,7 +485,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(908, 618);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.mainStatusStrip);
             this.Font = new System.Drawing.Font("Meiryo UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
@@ -508,8 +508,8 @@
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.mainStatusStrip.ResumeLayout(false);
+            this.mainStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -530,8 +530,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox queryTextBox;
+        private System.Windows.Forms.TextBox logTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.RadioButton byteArrayRadioButton;
@@ -549,9 +549,9 @@
         private System.Windows.Forms.RadioButton qwordRadioButton;
         private System.Windows.Forms.RadioButton floatRadioButton;
         private System.Windows.Forms.RadioButton doubleRadioButton;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.Button findFromListButton;
+        private System.Windows.Forms.Button pauseButton;
+        private System.Windows.Forms.StatusStrip mainStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel readyToolStripStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel springToolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel targetTitleToolStripStatusLabel;
