@@ -22,26 +22,26 @@ namespace MemoryDiff
         CancellationTokenSource Cancellation { get; set; }
 
         ISet<IntPtr> Exclusions { get; } = new HashSet<IntPtr>();
-        IDictionary<RadioButton, Type> Radios { get; } = new Dictionary<RadioButton, Type>();
+        IDictionary<RadioButton, ScanType> Radios { get; } = new Dictionary<RadioButton, ScanType>();
 
         int LastFoundPosition { get; set; } = -1;
 
         public MainForm()
         {
             InitializeComponent();
-            Radios.Add(byteRadioButton, typeof(byte));
-            Radios.Add(wordRadioButton, typeof(short));
-            Radios.Add(dwordRadioButton, typeof(int));
-            Radios.Add(qwordRadioButton, typeof(long));
-            Radios.Add(floatRadioButton, typeof(float));
-            Radios.Add(doubleRadioButton, typeof(double));
-            Radios.Add(asciiRadioButton, typeof(string));
-            Radios.Add(cp932RadioButton, typeof(string));
-            Radios.Add(unicodeLERadioButton, typeof(string));
-            Radios.Add(unicodeBERadioButton, typeof(string));
-            Radios.Add(utf8RadioButton, typeof(string));
-            Radios.Add(byteArrayRadioButton, typeof(byte[]));
-            Radios.Add(bitArrayRadioButton, typeof(byte[]));
+            Radios.Add(byteRadioButton, ScanType.BYTE);
+            Radios.Add(wordRadioButton, ScanType.WORD);
+            Radios.Add(dwordRadioButton, ScanType.DWORD);
+            Radios.Add(qwordRadioButton, ScanType.QWORD);
+            Radios.Add(floatRadioButton, ScanType.Float);
+            Radios.Add(doubleRadioButton, ScanType.Double);
+            Radios.Add(asciiRadioButton, ScanType.ASCIIString);
+            Radios.Add(cp932RadioButton, ScanType.CP932String);
+            Radios.Add(unicodeLERadioButton, ScanType.UnicodeLEString);
+            Radios.Add(unicodeBERadioButton, ScanType.UnicodeBEString);
+            Radios.Add(utf8RadioButton, ScanType.UTF8String);
+            Radios.Add(byteArrayRadioButton, ScanType.ByteArray);
+            Radios.Add(bitArrayRadioButton, ScanType.BitArray);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -243,74 +243,81 @@ namespace MemoryDiff
             return query;
         }
 
-        object Parse(Type type, string text)
+        object Parse(ScanType type, string text)
         {
-            switch (Type.GetTypeCode(type))
+            switch (type)
             {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
+                case ScanType.BYTE:
                     if (!byte.TryParse(text, out byte br))
                     {
                         break;
                     }
                     return br;
-                case TypeCode.Int16:
+                case ScanType.WORD:
                     if (!short.TryParse(text, out short sr))
                     {
                         break;
                     }
                     return sr;
-                case TypeCode.UInt16:
-                    if (!ushort.TryParse(text, out ushort usr))
-                    {
-                        break;
-                    }
-                    return usr;
-                case TypeCode.Int32:
+                case ScanType.DWORD:
                     if (!int.TryParse(text, out int ir))
                     {
                         break;
                     }
                     return ir;
-                case TypeCode.UInt32:
-                    if (!uint.TryParse(text, out uint uir))
-                    {
-                        break;
-                    }
-                    return uir;
-                case TypeCode.Int64:
+                case ScanType.QWORD:
                     if (!long.TryParse(text, out long lr))
                     {
                         break;
                     }
                     return lr;
-                case TypeCode.UInt64:
-                    if (!ulong.TryParse(text, out ulong ulr))
-                    {
-                        break;
-                    }
-                    return ulr;
-                case TypeCode.Single:
+                case ScanType.Float:
                     if (!float.TryParse(text, out float fr))
                     {
                         break;
                     }
                     return fr;
-                case TypeCode.Double:
+                case ScanType.Double:
                     if (!double.TryParse(text, out double dr))
                     {
                         break;
                     }
                     return dr;
+                case ScanType.ASCIIString:
+                    return Encoding.ASCII.GetBytes(text);
+                case ScanType.CP932String:
+                    return Encoding.GetEncoding(932).GetBytes(text);
+                case ScanType.UnicodeLEString:
+                    return Encoding.Unicode.GetBytes(text);
+                case ScanType.UnicodeBEString:
+                    return Encoding.BigEndianUnicode.GetBytes(text);
+                case ScanType.UTF8String:
+                    return Encoding.UTF8.GetBytes(text);
+                case ScanType.ByteArray:
+                    var fragments = text.Split(' ');
+                    var array = new byte[fragments.Length];
+                    int index = 0;
+                    foreach (var fragment in fragments)
+                    {
+                        if (!byte.TryParse(fragment, System.Globalization.NumberStyles.HexNumber,
+                            null, out byte parsedByte))
+                        {
+                            MessageBox.Show(this,
+                                $"入力 {fragment} は有効な 16 進 BYTE 型の値ではありません", Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
+                        array[index++] = parsedByte;
+                    }
+                    return array;
                 default:
                     // TODO: Support Strings, Bit arrays, byte arrays and other types
                     MessageBox.Show(this,
-                        $"型 {type.Name} は現在サポートされていません", Title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        $"型 {type} は現在サポートされていません", Title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return null;
             }
 
             MessageBox.Show(this,
-                $"入力 {text} は型 {type.Name} に変換できませんでした", Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                $"入力 {text} は型 {type} に変換できませんでした", Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             return null;
         }
 

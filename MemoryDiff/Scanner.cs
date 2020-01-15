@@ -16,7 +16,7 @@ namespace MemoryDiff
         Complete
     }
 
-    static class ScanStateToString
+    static class Extensions
     {
         internal static string ToString(this ScanState state, int count = 0)
         {
@@ -31,6 +31,44 @@ namespace MemoryDiff
             }
             return "";
         }
+
+        internal static int Size(this ScanType type)
+        {
+            switch (type)
+            {
+                case ScanType.BYTE:
+                    return sizeof(byte);
+                case ScanType.WORD:
+                    return sizeof(short);
+                case ScanType.DWORD:
+                case ScanType.Float:
+                    return sizeof(int);
+                case ScanType.QWORD:
+                case ScanType.Double:
+                    return sizeof(long);
+                default:
+                    // TODO: Fix
+                    return 16;
+            }
+        }
+
+    }
+
+    enum ScanType
+    {
+        BYTE,
+        WORD,
+        DWORD,
+        QWORD,
+        Float,
+        Double,
+        ASCIIString,
+        CP932String,
+        UnicodeLEString,
+        UnicodeBEString,
+        UTF8String,
+        ByteArray,
+        BitArray
     }
 
     class Scanner
@@ -53,7 +91,7 @@ namespace MemoryDiff
         }
 
         public async Task Watch<T>(IList<IntPtr> addresses, int intervalInMillis, CancellationToken token,
-            Action<ulong, T> handler = null, Action<IDictionary<ulong, T>> allHandler = null, T t = default(T))
+            Action<ulong, T> handler = null, Action<IDictionary<ulong, T>> allHandler = null, T t = default)
         {
             await Log.WriteLineAsync("ウォッチを開始しました...");
             var values = new Dictionary<ulong, T>();
