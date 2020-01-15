@@ -396,10 +396,12 @@
             // dwordRadioButton
             // 
             this.dwordRadioButton.AutoSize = true;
+            this.dwordRadioButton.Checked = true;
             this.dwordRadioButton.Location = new System.Drawing.Point(134, 3);
             this.dwordRadioButton.Name = "dwordRadioButton";
             this.dwordRadioButton.Size = new System.Drawing.Size(72, 19);
             this.dwordRadioButton.TabIndex = 14;
+            this.dwordRadioButton.TabStop = true;
             this.dwordRadioButton.Text = "DWORD";
             this.dwordRadioButton.UseVisualStyleBackColor = true;
             // 

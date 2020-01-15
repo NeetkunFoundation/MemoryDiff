@@ -52,21 +52,46 @@ namespace MemoryDiff
             Target = target ?? throw new ArgumentNullException(nameof(target));
         }
 
-        public async Task Watch(IList<IntPtr> addresses, int intervalInMillis, CancellationToken token,
-            Action<ulong, int> handler = null, Action<IDictionary<ulong, int>> allHandler = null)
+        public async Task Watch<T>(IList<IntPtr> addresses, int intervalInMillis, CancellationToken token,
+            Action<ulong, T> handler = null, Action<IDictionary<ulong, T>> allHandler = null, T t = default(T))
         {
             Console.WriteLine("Watcher Started");
-            var values = new Dictionary<ulong, int>();
+            var values = new Dictionary<ulong, T>();
             var baseAddr = (ulong)Target.MainModule.BaseAddress.ToInt64();
             while (!token.IsCancellationRequested)
             {
                 values.Clear();
                 foreach (var address in addresses)
                 {
-                    byte[] data = new byte[sizeof(int)];
+                    int size;
+                    switch (Type.GetTypeCode(t?.GetType() ?? typeof(T)))
+                    {
+                        case TypeCode.Byte:
+                        case TypeCode.SByte:
+                            size = sizeof(byte);
+                            break;
+                        case TypeCode.Int16:
+                        case TypeCode.UInt16:
+                            size = sizeof(short);
+                            break;
+                        case TypeCode.Int32:
+                        case TypeCode.UInt32:
+                        case TypeCode.Single:
+                            size = sizeof(int);
+                            break;
+                        case TypeCode.Int64:
+                        case TypeCode.UInt64:
+                        case TypeCode.Double:
+                            size = sizeof(long);
+                            break;
+                        default:
+                            size = 16;
+                            break;
+                    }
+                    byte[] data = new byte[size];
                     if (Windows.ReadProcessMemory(TargetHandle, address, data, data.Length, out int _))
                     {
-                        var value = BitConverter.ToInt32(data, 0);
+                        T value = Convert<T>(data, 0, t); ;
                         handler?.Invoke((ulong)address, value);
                         values.Add((ulong)address, value);
                     }
@@ -76,7 +101,7 @@ namespace MemoryDiff
             }
         }
 
-        public async Task<List<IntPtr>> FindMatches(float value, ISet<IntPtr> exclusions = null, Action<ulong> handler = null)
+        public async Task<List<IntPtr>> FindMatches<T>(T value, ISet<IntPtr> exclusions = null, Action<ulong, T> handler = null)
         {
             await Console.Out.WriteLineAsync("Scanning Addresses...");
             var matches = new List<IntPtr>();
@@ -126,8 +151,8 @@ namespace MemoryDiff
                         // Matching
                         for (var offset = 0; offset < data.Length; offset += sizeof(float))
                         {
-                            var found = BitConverter.ToSingle(data, offset);
-                            if (found == value)
+                            T found = Convert<T>(data, offset, value);
+                            if (Equals(found, value))
                             {
                                 await Console.Out.WriteLineAsync($"0x{regionStart + (ulong)offset:X8}: {found}");
                                 await Console.Out.WriteLineAsync("Match Address (Absolute): " + (regionStart + (ulong)offset));
@@ -137,7 +162,7 @@ namespace MemoryDiff
                                 if (!exclusions.Contains(address))
                                 {
                                     matches.Add(address);
-                                    handler?.Invoke((ulong)address);
+                                    handler?.Invoke((ulong)address, found);
                                 }
                             }
                         }
@@ -157,6 +182,35 @@ namespace MemoryDiff
             if (ProtectionInclusions.Where(inclusion => protection.HasFlag(inclusion)).Any())
                 return true;
             return true;
+        }
+
+        static T Convert<T>(byte[] data, int offset, object value = null)
+        {
+            switch (Type.GetTypeCode(value?.GetType() ?? typeof(T)))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                    return (T)(object)data[offset];
+                case TypeCode.Int16:
+                    return (T)(object)BitConverter.ToInt16(data, offset);
+                case TypeCode.UInt16:
+                    return (T)(object)BitConverter.ToUInt16(data, offset);
+                case TypeCode.Int32:
+                    return (T)(object)BitConverter.ToInt32(data, offset);
+                case TypeCode.UInt32:
+                    return (T)(object)BitConverter.ToUInt32(data, offset);
+                case TypeCode.Int64:
+                    return (T)(object)BitConverter.ToInt64(data, offset);
+                case TypeCode.UInt64:
+                    return (T)(object)BitConverter.ToUInt64(data, offset);
+                case TypeCode.Single:
+                    return (T)(object)BitConverter.ToSingle(data, offset);
+                case TypeCode.Double:
+                    return (T)(object)BitConverter.ToDouble(data, offset);
+                default:
+                    // TODO: Support other types.
+                    return (T)(object)data;
+            }
         }
 
     }
