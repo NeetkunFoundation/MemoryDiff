@@ -230,6 +230,7 @@
             // queryTextBox
             // 
             this.queryTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queryTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F);
             this.queryTextBox.Location = new System.Drawing.Point(64, 3);
             this.queryTextBox.Name = "queryTextBox";
             this.queryTextBox.Size = new System.Drawing.Size(833, 23);

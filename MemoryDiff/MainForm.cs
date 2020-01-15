@@ -24,6 +24,21 @@ namespace MemoryDiff
         CancellationTokenSource Cancellation { get; set; }
 
         ISet<IntPtr> Exclusions { get; } = new HashSet<IntPtr>();
+        RadioButton[] Radios => new[] {
+            byteRadioButton,
+            wordRadioButton,
+            dwordRadioButton,
+            qwordRadioButton,
+            floatRadioButton,
+            doubleRadioButton,
+            asciiRadioButton,
+            cp932RadioButton,
+            unicodeLERadioButton,
+            unicodeBERadioButton,
+            utf8RadioButton,
+            byteArrayRadioButton,
+            bitArrayRadioButton,
+        };
 
         public MainForm()
         {
@@ -44,6 +59,25 @@ namespace MemoryDiff
                 return;
             }
 
+            foreach (var control in Radios)
+            {
+                control.CheckedChanged += (s, ev) =>
+                {
+                    if (!(s is RadioButton))
+                        return;
+
+                    if (!((RadioButton)s).Checked)
+                        return;
+
+                    foreach (var radio in Radios)
+                    {
+                        if (radio != s)
+                        {
+                            radio.Checked = false;
+                        }
+                    }
+                };
+            }
             MemoryScanner = new Scanner(GameProcess);
         }
 
