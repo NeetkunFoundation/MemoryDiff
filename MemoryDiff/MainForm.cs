@@ -51,7 +51,7 @@ namespace MemoryDiff
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    logTextBox.Text += line + "\r\n";
+                    logTextBox.AppendText(line + "\r\n");
                     if (logTextBox.Text.Length > 10000)
                     {
                         logTextBox.Text = logTextBox.Text.Substring(logTextBox.Text.IndexOf("\r\n"));
