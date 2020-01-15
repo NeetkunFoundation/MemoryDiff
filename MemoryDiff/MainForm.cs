@@ -47,7 +47,7 @@ namespace MemoryDiff
         private void MainForm_Load(object sender, EventArgs e)
         {
             Title = Text;
-            GameProcess = Process.GetProcessesByName("notepad").FirstOrDefault();
+            GameProcess = Process.GetProcessesByName("MonsterHunterWorld").FirstOrDefault();
             if (GameProcess == default(Process))
             {
                 MessageBox.Show(
