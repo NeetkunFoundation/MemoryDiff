@@ -60,6 +60,12 @@
             this.qwordRadioButton = new System.Windows.Forms.RadioButton();
             this.floatRadioButton = new System.Windows.Forms.RadioButton();
             this.doubleRadioButton = new System.Windows.Forms.RadioButton();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.readyToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.springToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.targetTitleToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -71,6 +77,7 @@
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -88,8 +95,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(900, 610);
-            this.splitContainer1.SplitterDistance = 302;
+            this.splitContainer1.Size = new System.Drawing.Size(900, 588);
+            this.splitContainer1.SplitterDistance = 291;
             this.splitContainer1.TabIndex = 0;
             // 
             // addressListView
@@ -102,7 +109,7 @@
             this.addressListView.HideSelection = false;
             this.addressListView.Location = new System.Drawing.Point(0, 0);
             this.addressListView.Name = "addressListView";
-            this.addressListView.Size = new System.Drawing.Size(900, 302);
+            this.addressListView.Size = new System.Drawing.Size(900, 291);
             this.addressListView.TabIndex = 3;
             this.addressListView.UseCompatibleStateImageBehavior = false;
             this.addressListView.View = System.Windows.Forms.View.Details;
@@ -124,10 +131,12 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.excludeAllButton);
             this.panel1.Controls.Add(this.refreshButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 274);
+            this.panel1.Location = new System.Drawing.Point(0, 263);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(900, 30);
             this.panel1.TabIndex = 5;
@@ -158,7 +167,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(900, 274);
+            this.groupBox1.Size = new System.Drawing.Size(900, 263);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "検索の設定";
@@ -182,7 +191,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(894, 252);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(894, 241);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
             // label3
@@ -191,7 +200,7 @@
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 135);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 117);
+            this.label3.Size = new System.Drawing.Size(55, 106);
             this.label3.TabIndex = 12;
             this.label3.Text = "ログ";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -234,7 +243,7 @@
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(833, 111);
+            this.textBox2.Size = new System.Drawing.Size(833, 100);
             this.textBox2.TabIndex = 13;
             // 
             // tableLayoutPanel2
@@ -421,12 +430,62 @@
             this.doubleRadioButton.Text = "double";
             this.doubleRadioButton.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Location = new System.Drawing.Point(729, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(96, 30);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "リストから検索";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button2.Location = new System.Drawing.Point(633, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(96, 30);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "一時停止";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.readyToolStripStatusLabel,
+            this.springToolStripStatusLabel1,
+            this.targetTitleToolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(4, 592);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(900, 22);
+            this.statusStrip1.TabIndex = 6;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // readyToolStripStatusLabel
+            // 
+            this.readyToolStripStatusLabel.Name = "readyToolStripStatusLabel";
+            this.readyToolStripStatusLabel.Size = new System.Drawing.Size(55, 17);
+            this.readyToolStripStatusLabel.Text = "準備完了";
+            // 
+            // springToolStripStatusLabel1
+            // 
+            this.springToolStripStatusLabel1.Name = "springToolStripStatusLabel1";
+            this.springToolStripStatusLabel1.Size = new System.Drawing.Size(799, 17);
+            this.springToolStripStatusLabel1.Spring = true;
+            // 
+            // targetTitleToolStripStatusLabel
+            // 
+            this.targetTitleToolStripStatusLabel.Name = "targetTitleToolStripStatusLabel";
+            this.targetTitleToolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(908, 618);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.statusStrip1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
@@ -449,7 +508,10 @@
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -487,6 +549,12 @@
         private System.Windows.Forms.RadioButton qwordRadioButton;
         private System.Windows.Forms.RadioButton floatRadioButton;
         private System.Windows.Forms.RadioButton doubleRadioButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel readyToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel springToolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel targetTitleToolStripStatusLabel;
     }
 }
 
