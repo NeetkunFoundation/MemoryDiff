@@ -168,6 +168,8 @@ namespace MemoryDiff
             var items = new Dictionary<ulong, ListViewItem>();
 
             var query = GetQuery();
+            if (query == null)
+                return;
 
             Watches = await MemoryScanner.FindMatches(query, exclusions: Exclusions, handler: (address, found) =>
             {
@@ -238,27 +240,69 @@ namespace MemoryDiff
             {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
-                    return byte.Parse(text);
+                    if (!byte.TryParse(text, out byte br))
+                    {
+                        break;
+                    }
+                    return br;
                 case TypeCode.Int16:
-                    return short.Parse(text);
+                    if (!short.TryParse(text, out short sr))
+                    {
+                        break;
+                    }
+                    return sr;
                 case TypeCode.UInt16:
-                    return ushort.Parse(text);
+                    if (!ushort.TryParse(text, out ushort usr))
+                    {
+                        break;
+                    }
+                    return usr;
                 case TypeCode.Int32:
-                    return int.Parse(text);
+                    if (!int.TryParse(text, out int ir))
+                    {
+                        break;
+                    }
+                    return ir;
                 case TypeCode.UInt32:
-                    return uint.Parse(text);
+                    if (!uint.TryParse(text, out uint uir))
+                    {
+                        break;
+                    }
+                    return uir;
                 case TypeCode.Int64:
-                    return long.Parse(text);
+                    if (!long.TryParse(text, out long lr))
+                    {
+                        break;
+                    }
+                    return lr;
                 case TypeCode.UInt64:
-                    return ulong.Parse(text);
+                    if (!ulong.TryParse(text, out ulong ulr))
+                    {
+                        break;
+                    }
+                    return ulr;
                 case TypeCode.Single:
-                    return float.Parse(text);
+                    if (!float.TryParse(text, out float fr))
+                    {
+                        break;
+                    }
+                    return fr;
                 case TypeCode.Double:
-                    return double.Parse(text);
+                    if (!double.TryParse(text, out double dr))
+                    {
+                        break;
+                    }
+                    return dr;
                 default:
                     // TODO: Support Strings, Bit arrays, byte arrays and other types
-                    return text;
+                    MessageBox.Show(this,
+                        $"型 {type.Name} は現在サポートされていません", Title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
             }
+
+            MessageBox.Show(this,
+                $"入力 {text} は型 {type.Name} に変換できませんでした", Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return null;
         }
 
     }
