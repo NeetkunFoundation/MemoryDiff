@@ -196,15 +196,6 @@ namespace MemoryDiff
                 }));
             });
 
-            await Task.Run(async () =>
-            {
-                await Log.WriteLineAsync($"マッチしたアドレス ({Watches.Count}):");
-                foreach (var address in Watches)
-                {
-                    await Log.WriteLineAsync("0x" + address.ToString("X8"));
-                }
-            });
-
             Invoke((MethodInvoker)(() =>
             {
                 Text = $"{Title} ({Watches.Count})";
