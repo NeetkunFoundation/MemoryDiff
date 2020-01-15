@@ -184,17 +184,17 @@ namespace MemoryDiff
                 case TypeCode.UInt16:
                     return ushort.Parse(text);
                 case TypeCode.Int32:
-                    return ushort.Parse(text);
+                    return int.Parse(text);
                 case TypeCode.UInt32:
-                    return ushort.Parse(text);
+                    return uint.Parse(text);
                 case TypeCode.Int64:
-                    return ushort.Parse(text);
+                    return long.Parse(text);
                 case TypeCode.UInt64:
-                    return ushort.Parse(text);
+                    return ulong.Parse(text);
                 case TypeCode.Single:
-                    return ushort.Parse(text);
+                    return float.Parse(text);
                 case TypeCode.Double:
-                    return ushort.Parse(text);
+                    return double.Parse(text);
                 default:
                     // TODO: Support Strings, Bit arrays, byte arrays and other types
                     return text;
