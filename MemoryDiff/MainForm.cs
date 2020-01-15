@@ -201,25 +201,22 @@ namespace MemoryDiff
 
             Cancellation?.Cancel();
             Cancellation = new CancellationTokenSource();
-            await MemoryScanner.Watch(Watches, 500, Cancellation.Token, t: query, allHandler: dict =>
-           {
-               foreach (var (k, v) in dict)
-               {
-                   Invoke((MethodInvoker)(() =>
-                   {
-                       if (items.ContainsKey(k))
-                       {
-                           items[k].SubItems[1].Text = v.ToString();
-                       }
-                       else
-                       {
-                           items[k] = addressListView.Items.Add(new ListViewItem(new[]{
+            await MemoryScanner.Watch(Watches, 500, Cancellation.Token, t: query, handler: (k, v) =>
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    if (items.ContainsKey(k))
+                    {
+                        items[k].SubItems[1].Text = v.ToString();
+                    }
+                    else
+                    {
+                        items[k] = addressListView.Items.Add(new ListViewItem(new[]{
                                 k.ToString("X8"), v.ToString(), v.ToString()
-                           }));
-                       }
-                   }));
-               }
-           });
+                        }));
+                    }
+                }));
+            });
         }
 
         object GetQuery()

@@ -60,7 +60,6 @@ namespace MemoryDiff
             var baseAddr = (ulong)Target.MainModule.BaseAddress.ToInt64();
             while (!token.IsCancellationRequested)
             {
-                values.Clear();
                 foreach (var address in addresses)
                 {
                     int size;
@@ -91,9 +90,13 @@ namespace MemoryDiff
                     byte[] data = new byte[size];
                     if (Windows.ReadProcessMemory(TargetHandle, address, data, data.Length, out int _))
                     {
-                        T value = Convert<T>(data, 0, t); ;
-                        handler?.Invoke((ulong)address, value);
-                        values.Add((ulong)address, value);
+                        var key = (ulong)address;
+                        T value = Convert<T>(data, 0, t);
+                        if (!values.ContainsKey(key) || !Equals(values[key], value))
+                        {
+                            handler?.Invoke(key, value);
+                            values[key] = value;
+                        }
                     }
                 }
                 allHandler?.Invoke(values);
