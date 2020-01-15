@@ -109,11 +109,11 @@ namespace MemoryDiff
             await Console.Out.WriteLineAsync("Scanning Addresses...");
             var matches = new List<IntPtr>();
 
-            var start = (ulong)Target.MainModule.BaseAddress;
-            var end = 0x145000000UL;
+            // var start = (ulong)Target.MainModule.BaseAddress;
+            // var end = 0x145000000UL;
 
-            // var start = 0UL;
-            // var end = 0x7FFFFFFEFFFFUL;
+            var start = 0UL;
+            var end = 0x7FFFFFFEFFFFUL;
 
             await Console.Out.WriteLineAsync($"Address Range: 0x{start:X08} to 0x{end:X08}");
 
