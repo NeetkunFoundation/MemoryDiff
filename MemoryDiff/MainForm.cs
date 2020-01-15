@@ -78,38 +78,50 @@ namespace MemoryDiff
                     }
                 };
             }
+
+            targetTitleToolStripStatusLabel.Text = GameProcess.MainWindowTitle;
+
             MemoryScanner = new Scanner(GameProcess);
         }
 
         async Task Scan()
         {
-            Text = Title + " (検索中...)";
+            var count = 0;
+
+            Invoke((MethodInvoker)(() =>
+            {
+                readyToolStripStatusLabel.Text = ScanState.Scanning.ToString(count);
+                Text = Title + " (検索中...)";
+            }));
 
             var items = new Dictionary<ulong, ListViewItem>();
-            var count = 0;
             Watches = await MemoryScanner.FindMatches(SearchTarget, exclusions: Exclusions, handler: address =>
             {
-                Invoke((MethodInvoker)(() =>
+                BeginInvoke((MethodInvoker)(() =>
                 {
-                    Text = Title + $" (検索中: {++count})";
-                    items[address] = addressListView.Items.Add(new ListViewItem(new[]{
-                                address.ToString("X8"), "", SearchTarget.ToString()
-                            }));
+                    var c = Interlocked.Increment(ref count);
+                    Text = $"{Title} (検索中: {c})";
+                    readyToolStripStatusLabel.Text = ScanState.Scanning.ToString(c);
+                    items[address] = addressListView.Items.Add(new ListViewItem(new[] {
+                        address.ToString("X8"), "", SearchTarget.ToString()
+                    }));
                 }));
             });
-            foreach (var exclusion in Exclusions)
+
+            await Task.Run(async () =>
             {
-                Watches.Remove(exclusion);
-            }
+                await Console.Out.WriteLineAsync($"Matches ({Watches.Count}):");
+                foreach (var address in Watches)
+                {
+                    await Console.Out.WriteLineAsync("0x" + address.ToString("X8"));
+                }
+            });
 
-            await Console.Out.WriteLineAsync($"Matches ({Watches.Count}):");
-
-            foreach (var address in Watches)
+            Invoke((MethodInvoker)(() =>
             {
-                Console.WriteLine(address);
-            }
-
-            Text = Title + " (" + Watches.Count + ")";
+                Text = $"{Title} ({Watches.Count})";
+                readyToolStripStatusLabel.Text = ScanState.Complete.ToString(Watches.Count);
+            }));
 
             Cancellation?.Cancel();
             Cancellation = new CancellationTokenSource();

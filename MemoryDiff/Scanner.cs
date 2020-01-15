@@ -9,6 +9,30 @@ using System.Threading.Tasks;
 
 namespace MemoryDiff
 {
+    enum ScanState
+    {
+        Ready,
+        Scanning,
+        Complete
+    }
+
+    static class ScanStateToString
+    {
+        internal static string ToString(this ScanState state, int count = 0)
+        {
+            switch (state)
+            {
+                case ScanState.Ready:
+                    return "準備完了";
+                case ScanState.Scanning:
+                    return "解析中... (件数: " + count + ")";
+                case ScanState.Complete:
+                    return "検索完了 (件数: " + count + ")";
+            }
+            return "";
+        }
+    }
+
     class Scanner
     {
         static Windows.RegionPageProtection[] ProtectionExclusions { get; } = new[] {

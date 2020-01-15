@@ -150,6 +150,7 @@
             this.excludeAllButton.TabIndex = 1;
             this.excludeAllButton.Text = "現在の結果をすべて除外";
             this.excludeAllButton.UseVisualStyleBackColor = true;
+            this.excludeAllButton.Click += new System.EventHandler(this.excludeAllButton_Click);
             // 
             // refreshButton
             // 
@@ -160,6 +161,7 @@
             this.refreshButton.TabIndex = 0;
             this.refreshButton.Text = "再検索";
             this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // groupBox1
             // 
