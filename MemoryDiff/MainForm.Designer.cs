@@ -110,7 +110,7 @@
             this.addressListView.Location = new System.Drawing.Point(0, 0);
             this.addressListView.Name = "addressListView";
             this.addressListView.Size = new System.Drawing.Size(900, 291);
-            this.addressListView.TabIndex = 3;
+            this.addressListView.TabIndex = 0;
             this.addressListView.UseCompatibleStateImageBehavior = false;
             this.addressListView.View = System.Windows.Forms.View.Details;
             // 
@@ -256,6 +256,7 @@
             // bitArrayRadioButton
             // 
             this.bitArrayRadioButton.AutoSize = true;
+            this.bitArrayRadioButton.Enabled = false;
             this.bitArrayRadioButton.Location = new System.Drawing.Point(73, 3);
             this.bitArrayRadioButton.Name = "bitArrayRadioButton";
             this.bitArrayRadioButton.Size = new System.Drawing.Size(60, 19);
@@ -420,7 +421,7 @@
             this.pauseButton.Location = new System.Drawing.Point(633, 0);
             this.pauseButton.Name = "pauseButton";
             this.pauseButton.Size = new System.Drawing.Size(96, 30);
-            this.pauseButton.TabIndex = 3;
+            this.pauseButton.TabIndex = 28;
             this.pauseButton.Text = "一時停止";
             this.pauseButton.UseVisualStyleBackColor = true;
             // 
@@ -430,7 +431,7 @@
             this.findFromListButton.Location = new System.Drawing.Point(729, 0);
             this.findFromListButton.Name = "findFromListButton";
             this.findFromListButton.Size = new System.Drawing.Size(96, 30);
-            this.findFromListButton.TabIndex = 2;
+            this.findFromListButton.TabIndex = 29;
             this.findFromListButton.Text = "リストから検索";
             this.findFromListButton.UseVisualStyleBackColor = true;
             this.findFromListButton.Click += new System.EventHandler(this.findFromListButton_Click);
@@ -441,7 +442,7 @@
             this.excludeAllButton.Location = new System.Drawing.Point(0, 0);
             this.excludeAllButton.Name = "excludeAllButton";
             this.excludeAllButton.Size = new System.Drawing.Size(150, 30);
-            this.excludeAllButton.TabIndex = 1;
+            this.excludeAllButton.TabIndex = 27;
             this.excludeAllButton.Text = "現在の結果をすべて除外";
             this.excludeAllButton.UseVisualStyleBackColor = true;
             this.excludeAllButton.Click += new System.EventHandler(this.excludeAllButton_Click);
@@ -452,7 +453,7 @@
             this.refreshButton.Location = new System.Drawing.Point(825, 0);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(75, 30);
-            this.refreshButton.TabIndex = 0;
+            this.refreshButton.TabIndex = 30;
             this.refreshButton.Text = "再検索";
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
