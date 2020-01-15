@@ -198,7 +198,7 @@ namespace MemoryDiff
 
             await Task.Run(async () =>
             {
-                await Log.WriteLineAsync($"Matches ({Watches.Count}):");
+                await Log.WriteLineAsync($"マッチしたアドレス ({Watches.Count}):");
                 foreach (var address in Watches)
                 {
                     await Log.WriteLineAsync("0x" + address.ToString("X8"));

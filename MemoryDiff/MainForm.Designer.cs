@@ -207,7 +207,7 @@
             // logTextBox
             // 
             this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logTextBox.Font = new System.Drawing.Font("Consolas", 9F);
+            this.logTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
             this.logTextBox.Location = new System.Drawing.Point(64, 138);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";

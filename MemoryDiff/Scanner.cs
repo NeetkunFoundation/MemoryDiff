@@ -55,7 +55,7 @@ namespace MemoryDiff
         public async Task Watch<T>(IList<IntPtr> addresses, int intervalInMillis, CancellationToken token,
             Action<ulong, T> handler = null, Action<IDictionary<ulong, T>> allHandler = null, T t = default(T))
         {
-            await Log.WriteLineAsync("Watcher Started");
+            await Log.WriteLineAsync("ウォッチを開始しました...");
             var values = new Dictionary<ulong, T>();
             var baseAddr = (ulong)Target.MainModule.BaseAddress.ToInt64();
             while (!token.IsCancellationRequested)
@@ -102,11 +102,12 @@ namespace MemoryDiff
                 allHandler?.Invoke(values);
                 await Task.Delay(intervalInMillis).ConfigureAwait(false);
             }
+            await Log.WriteLineAsync("ウォッチを停止しました...");
         }
 
         public async Task<List<IntPtr>> FindMatches<T>(T value, ISet<IntPtr> exclusions = null, Action<ulong, T> handler = null)
         {
-            await Log.WriteLineAsync("Scanning Addresses...");
+            await Log.WriteLineAsync("スキャンしています...");
             var matches = new List<IntPtr>();
 
             // var start = (ulong)Target.MainModule.BaseAddress;
@@ -115,9 +116,8 @@ namespace MemoryDiff
             var start = 0UL;
             var end = 0x7FFFFFFEFFFFUL;
 
-            await Log.WriteLineAsync($"Address Range: 0x{start:X08} to 0x{end:X08}");
-
-            await Log.WriteLineAsync("Is Little Endian: " + BitConverter.IsLittleEndian);
+            await Log.WriteLineAsync($"検索範囲: 0x{start:X08} to 0x{end:X08}");
+            await Log.WriteLineAsync("リトルエンディアン: " + BitConverter.IsLittleEndian);
             return await Task.Run(async () =>
             {
                 var current = start;
@@ -161,9 +161,9 @@ namespace MemoryDiff
                             if (Equals(found, value))
                             {
                                 await Log.WriteLineAsync($"0x{regionStart + (ulong)offset:X8}: {found}");
-                                await Log.WriteLineAsync("Match Address (Absolute): " + (regionStart + (ulong)offset));
-                                await Log.WriteLineAsync("Match Address Index: " + offset);
-                                await Log.WriteLineAsync("Match Address Base: " + regionStart);
+                                await Log.WriteLineAsync($"絶対アドレス: 0x{regionStart + (ulong)offset:X8}");
+                                await Log.WriteLineAsync($"チャンク: 0x{regionStart:X8} から 0x{regionEnd:X8}");
+                                await Log.WriteLineAsync($"オフセット: 0x{offset:X8}");
                                 var address = (IntPtr)(regionStart + (ulong)offset);
                                 if (!exclusions.Contains(address))
                                 {
