@@ -24,7 +24,7 @@ namespace MemoryDiff
         ISet<IntPtr> Exclusions { get; } = new HashSet<IntPtr>();
         IDictionary<RadioButton, Type> Radios { get; } = new Dictionary<RadioButton, Type>();
 
-        int LastFoundPosition { get; set; } = 0;
+        int LastFoundPosition { get; set; } = -1;
 
         public MainForm()
         {
@@ -47,7 +47,7 @@ namespace MemoryDiff
         private void MainForm_Load(object sender, EventArgs e)
         {
             Title = Text;
-            GameProcess = Process.GetProcessesByName("MonsterHunterWorld").FirstOrDefault();
+            GameProcess = Process.GetProcessesByName("notepad").FirstOrDefault();
             if (GameProcess == default(Process))
             {
                 MessageBox.Show(
@@ -78,7 +78,7 @@ namespace MemoryDiff
                 };
             }
 
-            targetTitleToolStripStatusLabel.Text = GameProcess.MainWindowTitle;
+            targetTitleToolStripStatusLabel.Text = $"PID {GameProcess.Id}: {GameProcess.MainWindowTitle}";
 
             MemoryScanner = new Scanner(GameProcess);
         }
@@ -112,13 +112,19 @@ namespace MemoryDiff
         {
             var query = queryTextBox.Text;
             var items = addressListView.Items;
+
+            foreach (ListViewItem item in items)
+            {
+                item.BackColor = Color.Transparent;
+            }
+
             ListViewItem found = null;
 
         find:
-            for (var i = LastFoundPosition; i < items.Count; ++i)
+            for (var i = LastFoundPosition + 1; i < items.Count; ++i)
             {
                 var item = items[i];
-                if (found.SubItems[1].Text == queryTextBox.Text)
+                if (item.SubItems[1].Text == queryTextBox.Text)
                 {
                     if (found == null || i > LastFoundPosition)
                     {
@@ -129,9 +135,9 @@ namespace MemoryDiff
                 }
             }
 
-            if (found == null && LastFoundPosition != 0)
+            if (found == null && LastFoundPosition != -1)
             {
-                LastFoundPosition = 0;
+                LastFoundPosition = -1;
                 goto find;
             }
 
@@ -139,7 +145,7 @@ namespace MemoryDiff
             {
                 if (found.SubItems[1].Text == query)
                 {
-                    found.Focused = true;
+                    found.BackColor = Color.FromArgb(255, 255, 190);
                 }
             }
             else
