@@ -171,6 +171,8 @@ namespace MemoryDiff
             addressListView.Items.Clear();
             var count = 0;
 
+            var stopwatch = Stopwatch.StartNew();
+
             Invoke((MethodInvoker)(() =>
             {
                 readyToolStripStatusLabel.Text = ScanState.Scanning.ToString(count);
@@ -196,10 +198,12 @@ namespace MemoryDiff
                 }));
             });
 
+            stopwatch.Stop();
+
             Invoke((MethodInvoker)(() =>
             {
                 Text = $"{Title} ({Watches.Count})";
-                readyToolStripStatusLabel.Text = ScanState.Complete.ToString(Watches.Count);
+                readyToolStripStatusLabel.Text = ScanState.Complete.ToString(Watches.Count) + " (" + stopwatch.ElapsedMilliseconds + " ms)";
             }));
 
             Cancellation?.Cancel();
